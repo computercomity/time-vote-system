@@ -1,7 +1,6 @@
 <template>
   <div class="page-index">
-    <Logos />
-    <Examples />
+    <h1>Time Vote System - 时间投票系统</h1>
   </div>
 </template>
 
