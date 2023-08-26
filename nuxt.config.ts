@@ -3,13 +3,13 @@ export default defineNuxtConfig({
   app: {
     // head
     head: {
-      title: 'Element Plus + Nuxt 3',
+      title: 'Time Vote System - 时间投票系统',
       meta: [
-        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' },
         {
           hid: 'description',
           name: 'description',
-          content: 'ElementPlus + Nuxt3',
+          content: '时间投票系统，为会议活动时间的确定提供有效的工具支持。',
         },
       ],
       link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
@@ -54,7 +54,7 @@ export default defineNuxtConfig({
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: `@use "@/assets/scss/element/index.scss" as element;`,
+          // additionalData: `@use "@/assets/scss/element/index.scss" as element;`,
         },
       },
     },
