@@ -108,7 +108,7 @@ const reset = () => {
   })
 }
 
-const submit = () => {
+const submit = async () => {
   if (selectedTime.value.length === 0) {
     ElNotification.error({
       title: '错误',
@@ -116,7 +116,43 @@ const submit = () => {
     })
     return
   }
-  console.log(selectedTime.value)
+
+  const postData = {
+    vote_id: 1,
+    data: selectedTime.value
+  }
+
+  const { data, error }: { data: Ref<any>, error: Ref<any> } = await useFetch('http://127.0.0.1:8787/vote', {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    body: JSON.stringify(postData)
+  })
+  console.log(data.value)
+  if (error.value) {
+    ElNotification.error({
+      title: '网络错误',
+      message: '请求失败，' + error.value?.message,
+    })
+    return
+  }
+
+  if (data.value.code !== 200) {
+    ElNotification.error({
+      title: '投票失败',
+      message: data.value.msg,
+    })
+    return
+  }
+
+
+  ElNotification.success({
+    title: '投票成功',
+    message: data.value.msg,
+  })
+
 }
 </script>
   
