@@ -3,13 +3,13 @@ export default defineNuxtConfig({
   app: {
     // head
     head: {
-      title: 'Time Vote System - 时间投票系统',
+      title: '计算机协会管理系统',
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' },
         {
           hid: 'description',
           name: 'description',
-          content: '时间投票系统，为会议活动时间的确定提供有效的工具支持。',
+          content: '计算机协会管理系统。支持时间投票系统，为会议活动时间的确定提供有效的工具支持；支持活动报名。',
         },
       ],
       link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],

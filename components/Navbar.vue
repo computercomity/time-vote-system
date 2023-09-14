@@ -23,13 +23,18 @@ const menu = [
     src: '/vote'
   },
   {
-    index: 'gap',
-  },
-  {
     index: '2',
-    title: '关于',
-    src: '/about'
-  }
+    title: '招新加入',
+    src: '/join'
+  },
+  // {
+  //   index: 'gap',
+  // },
+  // {
+  //   index: '3',
+  //   title: '关于',
+  //   src: '/about'
+  // }
 ]
 
 const router = useRouter()
