@@ -22,12 +22,13 @@
                         accept="image/png, image/jpeg" :on-change="onChange" v-model:file-list="userFile">
                         <el-icon class="el-icon--upload"><upload-filled /></el-icon>
                         <div class="el-upload__text">
-                            拖拽文件，或 <em>点击上传</em>
+                            点击上传 <b><em>支付账单截图</em></b><br>
+                            需包含 <b>转账单号</b> 以供核对<br>
+                            可在 <b>微信支付 - 微信支付凭证 - 查看账单详情</b> 中查看
                         </div>
                         <template #tip>
                             <div class="el-upload__tip">
-                                只能上传jpg/png文件，需包含转账单号以供核对<br />
-                                支付完成后，可在 <b>微信支付 - 微信支付凭证 - 查看账单详情</b> 中查看转账单号
+                                还没有支付？请联系计协的同学询问收款码，支付后再上传截图
                             </div>
                         </template>
                     </el-upload>
@@ -99,7 +100,7 @@ const onSubmit = async () => {
     formData.append('file', file)
     formData.append('studentId', form.studentId)
     formData.append('name', form.name)
-    
+
     const { data: result, error }: { data: Ref<any>, error: Ref<any> } = await useFetch('http://1.117.214.115:2016/join', {
         headers: {
             'Accept': 'application/json',
