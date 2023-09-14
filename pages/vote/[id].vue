@@ -12,12 +12,19 @@ const generateTimeRange = (start: number, end: number) => {
   return timeRange
 }
 
-const data = {
+const data = [{
   id: 1,
   name: '计协管理层第一次会议',
-  dateRange: ['8/27', '8/28'],
+  dateRange: ['8/28', '8/29'],
   timeRange: generateTimeRange(9, 22)
-}
+},
+{
+  id: 2,
+  name: '计协管理层第二次会议 - “百团”',
+  dateRange: ['9/12'],
+  timeRange: generateTimeRange(18, 23)
+},
+].find((item) => item.id === Number(name))
 
 const isMouseDown: Ref<boolean> = ref(false)
 
@@ -109,6 +116,14 @@ const reset = () => {
 }
 
 const submit = async () => {
+  if (!data) {
+    ElNotification.error({
+      title: '错误',
+      message: '未找到对应的投票',
+    })
+    return
+  }
+
   if (selectedTime.value.length === 0) {
     ElNotification.error({
       title: '错误',
@@ -118,11 +133,11 @@ const submit = async () => {
   }
 
   const postData = {
-    vote_id: 1,
+    vote_id: data.id,
     data: selectedTime.value
   }
 
-  const { data, error }: { data: Ref<any>, error: Ref<any> } = await useFetch('http://127.0.0.1:8787/vote', {
+  const { data: result, error }: { data: Ref<any>, error: Ref<any> } = await useFetch('http://1.117.214.115:2016/vote', {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
@@ -130,7 +145,7 @@ const submit = async () => {
     method: 'POST',
     body: JSON.stringify(postData)
   })
-  console.log(data.value)
+  console.log(result.value)
   if (error.value) {
     ElNotification.error({
       title: '网络错误',
@@ -139,10 +154,10 @@ const submit = async () => {
     return
   }
 
-  if (data.value.code !== 200) {
+  if (result.value.code !== 200) {
     ElNotification.error({
       title: '投票失败',
-      message: data.value.msg,
+      message: result.value.msg,
     })
     return
   }
@@ -150,7 +165,7 @@ const submit = async () => {
 
   ElNotification.success({
     title: '投票成功',
-    message: data.value.msg,
+    message: result.value.msg,
   })
 
 }
@@ -158,7 +173,7 @@ const submit = async () => {
   
 <template>
   <div class="text-center py-12">
-    <h2 class="text-gray-800">{{ data.name }}</h2>
+    <h2 class="text-gray-800">{{ data ? data.name : '未找到对应的投票' }}</h2>
     <span class="text-gray-400">投票ID - {{ name }}</span>
   </div>
   <!-- https://stackoverflow.com/questions/3918842/how-to-find-out-the-actual-event-target-of-touchmove-javascript-event -->
@@ -168,7 +183,7 @@ const submit = async () => {
   电脑端  mousedown -> (mousemove) -> mouseup -> click
   手机端  mousemove -> mousedown -> mouseup -> click
   -->
-  <div class="my-4 p-5 bg-[#f5f5f7] rounded-lg mxa max-w-[1000px]">
+  <div v-if="data" class="my-4 p-5 bg-[#f5f5f7] rounded-lg mxa max-w-[1000px]">
     <div class="flex inline-block flex-col select-none" @mouseleave="mouseUp" @touchend="mouseUp" @touchcancel="mouseUp"
       @touchstart="() => resetLocation() && mouseDown()">
       <div class="flex flex-col my-2">
